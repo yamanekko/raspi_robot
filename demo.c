@@ -37,7 +37,7 @@ int main( void )
 
 	#include "main_rb.h"
 	mrb_value return_value1;
-	return_value1 = mrb_load_irep(mrb, initcode);
+	return_value1 = mrb_load_irep(mrb, code);
 	if(mrb->exc){
 		 if(!mrb_undef_p(return_value1)){
 		     mrb_value s = mrb_funcall(mrb, mrb_obj_value(mrb->exc), "inspect", 0);
