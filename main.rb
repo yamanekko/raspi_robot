@@ -1,12 +1,17 @@
 #	PUT32(IRQ_DISABLE_BASIC,1);	//TODO いるかも？
 
+k_angle = 80
+k_omega = 800
+k_speed = 55
+k_distance = 20
+
 serial = Serial.new
 
 # in1, in2, enable, pwm0or1
 motor_left = Motor.new(5,6,12,0)
 motor_right = Motor.new(19,16,20,1)
 
-SystemTimer.init
+timer = SystemTimer.new
 
 gyro = Gyro.new() ## Gyro.new(Port::XX) ?
 
@@ -16,6 +21,13 @@ serial.puts("time,power,omegaI,thetaI,theta,omega,distance,vE5")
 MESURE_COUNTS = 45 ## 定数
 
 rec_omega_i = [0]*10
+theta_i = 0
+v_e5 = 0
+x_e5 = 0
+sum_power = 0
+sum_sum_power = 0
+
+start_time = timer.now
 
 loop do
   mesure_sum = 0
@@ -45,14 +57,14 @@ loop do
     sum_power = 0;
     sum_sum_power = 0;
   end
-  9.stepto(1, -1) do
+  9.step(1, -1) do |i|
     rec_omega_i[i] = rec_omega_i[i - 1]
   end
 
   t = k_angle * theta_i / 100.0
   o = k_omega * omega_i / 100.0
   s = k_speed * v_e5 / 1000.0
-  d = k_distance * xE5 / 1000.0
+  d = k_distance * x_e5 / 1000.0
   power_scale = t + o + s + d
   ##  power = max(min(95 * powerScale / 100, 255), -255)
   ltmp = 95 * power_scale / 100.0
@@ -72,7 +84,6 @@ loop do
   motor_left.drive(power) ## powerがマイナスなら逆転
   motor_right.drive(power)
 
-  now = SystemTimer.now
-  buf = sprintf("%ld,%ld,%d,%ld,%ld,%ld%ld,%ld,%ld", now, power, omegaI, (theta_i/286), t, o, (d/200),v_e5)
-  serial.puts(buf)
+  now = ((timer.now - start_time) / 1000).floor
+  serial.puts("#{now},#{power},#{omega_i},#{theta_i/286},#{t},#{o},#{d/200},#{v_e5}")
 end

@@ -29,19 +29,25 @@ int main( void )
 		return 0;
 	}
 
+/*
 	irep_irq = mrb_read_irep(mrb, irqcode);
 	  if (!irep_irq) {
 //		    irep_error(mrb);
 	    return 0;
 	  }
+*/
 
 	#include "main_rb.h"
+	char retString[256];
+
 	mrb_value return_value1;
 	return_value1 = mrb_load_irep(mrb, code);
 	if(mrb->exc){
 		 if(!mrb_undef_p(return_value1)){
 		     mrb_value s = mrb_funcall(mrb, mrb_obj_value(mrb->exc), "inspect", 0);
 		     if (mrb_string_p(s)) {
+		    	 //err
+		    	 sprintf(retString, RSTRING_PTR(s));
 		     } else {
 		     }
 		     return 0;

@@ -7,22 +7,34 @@ heap_size = 128M;
 /*heap_size = 1M;*/
 /* heap_size = 1048576; */
 
+OUTPUT_ARCH(arm)
+ENTRY(_start)
 SECTIONS
 {
-   .text : { *(.text*) 
-	*(.rodata)
-	*(.rodata*)
+   .text : { *(.text*)  } > RAM
+	. = ALIGN(4);
+
+	__rodata_start = .;
+	.rodata : { *(.data*) } > RAM
+	. = ALIGN(4);
+	__rodata_end = .;
+
        __text_end__ = .;
-   } > RAM
+
    __data_rom_start__ = .;
 	__etext = .;
 
-   .data : AT (	__etext){
+
+	__data_start = . ;
     __data_start__ = .;
-    *(.data*)
+	.data : { *(.data*) } > RAM
    __data_end__ = .;
-   } > RAM
+	. = ALIGN(4);
+	__data_end = . ;
+
    __data_size__ = __data_end__ - __data_start__;
+
+	__bss_start = . ;
    .bss  : {
    __bss_start__ = .;
    *(.bss*)
@@ -31,6 +43,10 @@ SECTIONS
    } > RAM
    __bss_size__ = __bss_end__ - __bss_start__;
 
+	. = ALIGN(4096);
+	__free_start = .;
+
+	. = 0x06400000;
 
     .heap :
     {
@@ -44,5 +60,4 @@ __heap_limit__ = .;
 }
 
 __mem_end__ = .;
-
 
