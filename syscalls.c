@@ -201,7 +201,7 @@ caddr_t
 _sbrk (int incr)
 {
 
-	  if (heap_end == NULL){
+    if ((void *)heap_end == NULL){
 	    heap_end = heap_start;
 	  }
 
