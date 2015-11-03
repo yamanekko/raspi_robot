@@ -9,7 +9,7 @@ serial = Serial.new
 
 # in1, in2, enable, pwm0or1
 motor_left = Motor.new(5,6,12,0)
-motor_right = Motor.new(19,16,20,1)
+motor_right = Motor.new(16,20,19,1)
 
 timer = SystemTimer.new
 
