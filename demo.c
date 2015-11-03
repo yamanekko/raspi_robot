@@ -29,11 +29,11 @@ int main( void )
 		return 0;
 	}
 
-	irep_irq = mrb_read_irep(mrb, irqcode);
-	  if (!irep_irq) {
+//	irep_irq = mrb_read_irep(mrb, irqcode);
+//	  if (!irep_irq) {
 //		    irep_error(mrb);
-	    return 0;
-	  }
+//	    return 0;
+//	  }
 
 	#include "main_rb.h"
 	mrb_value return_value1;
