@@ -85,5 +85,5 @@ loop do
   motor_right.drive(power)
 
   now = ((timer.now - start_time) / 1000).floor
-  serial.puts("#{now},#{power},#{omega_i},#{theta_i/286},#{t},#{o},#{d/200},#{v_e5}")
+#  serial.puts("#{now},#{power},#{omega_i},#{theta_i/286},#{t},#{o},#{d/200},#{v_e5}")
 end
