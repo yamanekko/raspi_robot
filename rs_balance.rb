@@ -95,11 +95,11 @@ balancer = Balancer.new(80, 800, 55, 20)
 loop do
   gyro_value = gyro.measure(Gyro::Y, MESURE_COUNTS)
 
-  pwm_left, pwm_right = balancer.calculate(gyro_value)
+  power_left, power_right = balancer.calculate(gyro_value)
 
   # motorに渡す
-  motor_left.pwm = pwm_left   ## powerがマイナスなら逆転
-  motor_right.pwm = pwm_right
+  motor_left.power = power_left   ## powerがマイナスなら逆転
+  motor_right.power = power_right
 
   #now = ((timer.now - start_time) / 1000).floor
   #serial.puts("#{now},#{power},#{omega_i},#{theta_i/286},#{t},#{o},#{d/200},#{v_e5}")
