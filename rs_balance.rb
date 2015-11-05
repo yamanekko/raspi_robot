@@ -30,7 +30,7 @@ class Balancer
   # reset balancer
   #
   def reset
-    @rec_omega_i = Array.new(10, 0)
+    @rec_omega_i = [0]*10
     @theta_i = 0
     @v_e5 = 0
     @x_e5 = 0
