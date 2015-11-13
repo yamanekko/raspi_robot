@@ -23,6 +23,8 @@ class Balancer
     @k_speed = speed
     @k_distance = distance
 
+	@counter = 0
+
     reset
   end
 
@@ -69,13 +71,19 @@ class Balancer
     @v_e5 = @sum_power
     @x_e5 = @sum_sum_power / 1000.0
 
+    @counter += 1
+    if @counter % 30 == 0
+	  now = (($timer.now - $start_time) / 1000).floor
+	  $serial.puts("#{now},#{power},#{omega_i},#{@theta_i}")
+    end
+
     ## now X and Y is same
     return power, power
   end
 end
 
 
-serial = Serial.new
+$serial = Serial.new
 
 MESURE_COUNTS = 45 ## 定数
 gyro = Gyro.new() ## Gyro.new(Port::XX) ?
@@ -84,12 +92,14 @@ gyro = Gyro.new() ## Gyro.new(Port::XX) ?
 motor_left = Motor.new(5, 6, 12, 0)
 motor_right = Motor.new(16, 20, 19, 1)
 
-timer = SystemTimer.new
-start_time = timer.now
+$timer = SystemTimer.new
+$start_time = $timer.now
 
 balancer = Balancer.new(80, 800, 55, 20)
+# balancer = Balancer.new(80, 0, 0, 0)
 
-#serial.puts("time,power,omegaI,thetaI,theta,omega,distance,vE5")
+# $serial.puts("time,power,omegaI,thetaI,theta,omega,distance,vE5")
+$serial.puts("time,power,omega,theta")
 
 
 loop do
