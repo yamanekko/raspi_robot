@@ -1,5 +1,3 @@
-#	PUT32(IRQ_DISABLE_BASIC,1);	//TODO いるかも？
-
 ##
 # additional method for Gyro class
 #
@@ -72,7 +70,7 @@ class Balancer
     @x_e5 = @sum_sum_power / 1000.0
 
     @counter += 1
-    if @counter % 30 == 0
+    if @counter % 10 == 0
 	  now = (($timer.now - $start_time) / 1000).floor
 	  $serial.puts("#{now},#{power},#{omega_i},#{@theta_i}")
     end
@@ -85,7 +83,7 @@ end
 
 $serial = Serial.new
 
-MESURE_COUNTS = 45 ## 定数
+MESURE_COUNTS = 45
 gyro = Gyro.new() ## Gyro.new(Port::XX) ?
 
 # in1, in2, enable, pwm0or1
@@ -95,8 +93,7 @@ motor_right = Motor.new(16, 20, 19, 1)
 $timer = SystemTimer.new
 $start_time = $timer.now
 
-balancer = Balancer.new(80, 800, 55, 20)
-# balancer = Balancer.new(80, 0, 0, 0)
+balancer = Balancer.new(70, 750, 60, 20)
 
 # $serial.puts("time,power,omegaI,thetaI,theta,omega,distance,vE5")
 $serial.puts("time,power,omega,theta")
@@ -107,8 +104,7 @@ loop do
 
   power_left, power_right = balancer.calculate(gyro_value)
 
-  # motorに渡す
-  motor_left.power = power_left   ## powerがマイナスなら逆転
+  motor_left.power = power_left   ## minus value is reverse
   motor_right.power = power_right
 
   #now = ((timer.now - start_time) / 1000).floor

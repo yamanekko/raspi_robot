@@ -44,7 +44,6 @@ reset:
     mov r0,#0xD3
     msr cpsr_c,r0
     mov sp,#0xF000000
-;@    mov sp,#0x8000000
 
     ;@ SVC MODE, IRQ ENABLED, FIQ DIS
     ;@mov r0,#0x53

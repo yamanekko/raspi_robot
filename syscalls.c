@@ -20,24 +20,12 @@
 extern void PUT32 ( unsigned int, unsigned int );
 extern unsigned int GET32 ( unsigned int );
 
-
-// void uart_putc ( unsigned int c );
-
-//extern char heap_start __asm("heap_start");
-//unsigned int heap_end=&heap_start;
-
-//?unsigned int prev_heap_end;
-//?unsigned int heap_buff_end = 0;
-//?char heap_buff[12800000];
 extern int heap_start;
 extern int heap_limit;
 unsigned int heap_end = 0;
 unsigned int prev_heap_end;
-/*
-unsigned int heap_end=0x08000000;
-unsigned int prev_heap_end;
-*/
-/* Forward prototypes.  */
+
+// Forward prototypes
 int     _system     _PARAMS ((const char *));
 int     _rename     _PARAMS ((const char *, const char *));
 int     isatty      _PARAMS ((int));
