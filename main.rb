@@ -1,4 +1,4 @@
-#	PUT32(IRQ_DISABLE_BASIC,1);	//TODO いるかも？
+#	PUT32(IRQ_DISABLE_BASIC,1);	//TODO should use it?
 
 k_angle = 80
 k_omega = 800
@@ -17,8 +17,8 @@ gyro = Gyro.new() ## Gyro.new(Port::XX) ?
 
 serial.puts("time,power,omegaI,thetaI,theta,omega,distance,vE5")
 
-## gyroの値からモーターを制御する
-MESURE_COUNTS = 45 ## 定数
+## control motor with gyro value
+MESURE_COUNTS = 45 ## consntant
 
 rec_omega_i = [0]*10
 theta_i = 0
@@ -35,7 +35,7 @@ loop do
     mesure_sum += gyro.read(Gyro::Y)
   end
 
-  omega_i = mesure_sum * 0.00875 / MESURE_COUNTS;
+  omega_i = mesure_sum * 0.00875 / MESURE_COUNTS
 
   if omega_i.abs < 2
     omega_i = 0
@@ -80,10 +80,10 @@ loop do
   v_e5 = sum_power
   x_e5 = sum_sum_power / 1000.0
 
-  # motorに渡す
-  motor_left.drive(power) ## powerがマイナスなら逆転
+  # assing motor value
+  motor_left.drive(power) ## reversed when power < 0
   motor_right.drive(power)
 
   now = ((timer.now - start_time) / 1000).floor
-#  serial.puts("#{now},#{power},#{omega_i},#{theta_i/286},#{t},#{o},#{d/200},#{v_e5}")
+  # serial.puts("#{now},#{power},#{omega_i},#{theta_i/286},#{t},#{o},#{d/200},#{v_e5}")
 end

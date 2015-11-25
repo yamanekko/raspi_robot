@@ -109,7 +109,7 @@ _write (int    file,
         PUT32(AUX_MU_IO_REG,ptr[r]);
 
     }
-#if 0	// UART������STM����������������
+#if 0	// UART for STM
   int index;
 
   // For example, output string by UART
